@@ -3,6 +3,7 @@ import Hero from "../components/home/Hero";
 import NavBar from "../components/home/NavBar";
 import Tour from "../components/home/Tour";
 import Tournext from "../components/home/Tournext";
+import Footer from "../components/home/Footer";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
 	  <Tour />
 	  <Tournext />
 	  </div>
+	  <Footer />
     </div>
   );
 };
