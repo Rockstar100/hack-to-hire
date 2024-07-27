@@ -1,9 +1,12 @@
-import BookCard from './components/BookCard';
+import Home from "./pages/Home";
+import LoginSignUp from "./pages/LoginSignUp";
+
 
 function App() {
   return (
     <div className="App">
-     <BookCard/>
+     <Home />
+    
     </div>
   );
 }
