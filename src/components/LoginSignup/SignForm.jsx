@@ -1,6 +1,36 @@
-import React from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const SignForm = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match. Please try again.');
+      return;
+    }
+
+    axios.post('http://127.0.0.1:5000/api/signup', { username, email, password })
+      .then(response => {
+        alert('Signup successful. You can now log in.');
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        window.location.href = '/login';
+      })
+      .catch(error => {
+        console.error('Error signing up:', error);
+        alert('Error signing up. Please try again.');
+      });
+  };
+
   return (
     <div
       className="w-full h-screen m-0 pt-[120px]  md:pt-0"
@@ -16,99 +46,102 @@ const SignForm = () => {
           src="https://www.goindigo.in/content/dam/s6web/in/en/assets/logo/IndiGo_logo_2x.png"
           className="mx-auto md:w-[270px] w-[200px]"
         />
-        <h1 className=" text-4xl font-semibold md:ms-20  mt-5">Sign In</h1>
-        <div class="max-w-sm  md:ms-20  mt-5">
-          <form>
-            <div class="mb-5">
+        <h1 className="text-4xl font-semibold md:ms-20  mt-5">Sign In</h1>
+        <div className="max-w-sm  md:ms-20  mt-5">
+          <form onSubmit={handleSignup}>
+            <div className="mb-5">
               <label
-                for="fullName"
-                class="block mb-2 text-xl font-medium text-gray-900 "
+                htmlFor="userName"
+                className="block mb-2 text-xl font-medium text-gray-900"
               >
-                Full Name
+                User Name
               </label>
               <input
                 type="text"
-                id="fullName"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                id="userName"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder=""
                 required
               />
             </div>
-            <div class="mb-5">
+            <div className="mb-5">
               <label
-                for="email"
-                class="block mb-2 text-xl font-medium text-gray-900 "
+                htmlFor="email"
+                className="block mb-2 text-xl font-medium text-gray-900"
               >
                 Your email
               </label>
               <input
                 type="email"
                 id="email"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="name@flowbite.com"
                 required
               />
             </div>
-            <div class="mb-5">
+            <div className="mb-5">
               <label
-                for="password"
-                class="block mb-2 text-xl font-medium text-gray-900 "
+                htmlFor="password"
+                className="block mb-2 text-xl font-medium text-gray-900"
               >
                 Your password
               </label>
               <input
                 type="password"
                 id="password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 required
               />
             </div>
-            <div class="mb-5">
+            <div className="mb-5">
               <label
-                for="confirmpassword"
-                class="block mb-2 text-xl font-medium text-gray-900 "
+                htmlFor="confirmpassword"
+                className="block mb-2 text-xl font-medium text-gray-900"
               >
                 Confirm password
               </label>
               <input
                 type="password"
                 id="confirmpassword"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                requiredz
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                required
               />
             </div>
-            <div class="flex items-start mb-5">
-              <div class="flex items-center h-5">
+            <div className="flex items-start mb-5">
+              <div className="flex items-center h-5">
                 <input
                   id="remember"
                   type="checkbox"
                   value=""
-                  class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300   "
+                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
                   required
                 />
               </div>
               <label
-                for="remember"
-                class="ms-2 text-sm font-medium text-gray-900 "
+                htmlFor="remember"
+                className="ms-2 text-sm font-medium text-gray-900"
               >
                 Remember me
               </label>
             </div>
             <button
               type="submit"
-              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Submit
             </button>
           </form>
-          <button class="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60 mt-5">
-            <img
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              alt="Google"
-              class="h-[18px] w-[18px] "
-            />
-            Continue with Google
-          </button>
+          <span>
+            Already a member? <a href="/" className="text-blue-700">Sign in</a>
+          </span>
         </div>
       </div>
     </div>

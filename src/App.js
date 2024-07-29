@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import FlightStatusDashboard from './components/FlightStatusDashboard';
 import FlightDetail from './components/FlightDetail';
 import NotificationsSettings from './components/NotificationsSettings';
-import Login from './components/Login';
-import Signup from './components/Signup';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NotificationSubscription from './components/NotificationSubscription';
 import LoginForm from './components/LoginSignup/LoginForm';
@@ -16,11 +14,10 @@ const App = () => {
         <Router>
             <div className="app">
                 <Routes>
-                    <Route path="/" element={<Login setUser={setUser} />} />
+                    <Route path="/" element={<LoginForm  setUser={setUser} />} />
                     <Route path="/flight/:flightId" element={<FlightDetail />} />
-                    <Route path="/settings" element={user ? <NotificationsSettings userId={user} /> : <Login setUser={setUser} />} />
+                    <Route path="/settings" element={user ? <NotificationsSettings userId={user} /> : <LoginForm  setUser={setUser} />} />
                     <Route path="/dashboard"element={<FlightStatusDashboard />}  />
-                    <Route path="/login" element={<LoginForm />} />
                     <Route path="/signup" element={<SignFrom />} />
                     <Route path="/subscription" element={<NotificationSubscription userId={userId} />} />
                     <Route path="*" element={<h1>Not Found</h1>} />
