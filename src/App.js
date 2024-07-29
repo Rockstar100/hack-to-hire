@@ -14,10 +14,10 @@ const App = () => {
         <Router>
             <div className="app">
                 <Routes>
-                    <Route path="/" element={<FlightStatusDashboard />} />
+                    <Route path="/" element={<Login setUser={setUser} />} />
                     <Route path="/flight/:flightId" element={<FlightDetail />} />
                     <Route path="/settings" element={user ? <NotificationsSettings userId={user} /> : <Login setUser={setUser} />} />
-                    <Route path="/login" element={<Login setUser={setUser} />} />
+                    <Route path="/dashboard"element={<FlightStatusDashboard />}  />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/subscription" element={<NotificationSubscription userId={userId} />} />
                 </Routes>
