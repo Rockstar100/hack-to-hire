@@ -14,7 +14,6 @@ const App = () => {
                     <Route path="/dashboard"element={<FlightStatusDashboard />}  />
                     <Route path="/signup" element={<SignFrom />} />
                     <Route path="*" element={<h1>Not Found</h1>} />
-                  
                 </Routes>
             </div>
         </Router>
