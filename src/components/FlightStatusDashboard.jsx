@@ -19,6 +19,11 @@ const FlightStatusDashboard = () => {
     }, []);
 
     const handleEmail = () => {
+        if (!selectedFlight || !recipientEmail) {
+            alert('Please select a flight and enter a recipient email.');
+            return;
+        }
+
         const emailDetails = {
             to: recipientEmail,
             subject: `Flight Details: ${selectedFlight.flightNumber}`,
@@ -28,9 +33,9 @@ const FlightStatusDashboard = () => {
                 Departure Time: ${new Date(selectedFlight.departureTime).toLocaleString()}
                 Arrival Time: ${new Date(selectedFlight.arrivalTime).toLocaleString()}
                 Gate: ${selectedFlight.gate}
-                From: ${selectedFlight.from.name} (${selectedFlight.from.iata})
-                To: ${selectedFlight.to.name} (${selectedFlight.to.iata})
-            `
+               
+            `,
+            user_email: recipientEmail 
         };
 
         axios.post('http://127.0.0.1:5000/api/send-email', emailDetails)
@@ -47,7 +52,6 @@ const FlightStatusDashboard = () => {
 
     return (
         <>
-            {/* <Home /> */}
             <div className="dashboard">
                 <h1>Flight Status Dashboard</h1>
                 <table className="flights-table">
@@ -58,8 +62,6 @@ const FlightStatusDashboard = () => {
                             <th>Departure Time</th>
                             <th>Arrival Time</th>
                             <th>Gate</th>
-                            <th>From</th>
-                            <th>To</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -71,8 +73,7 @@ const FlightStatusDashboard = () => {
                                 <td>{new Date(flight.departureTime).toLocaleString()}</td>
                                 <td>{new Date(flight.arrivalTime).toLocaleString()}</td>
                                 <td>{flight.gate}</td>
-                                <td>{flight.from.name} ({flight.from.iata})</td>
-                                <td>{flight.to.name} ({flight.to.iata})</td>
+                               
                                 <td>
                                     <button className="primary-btn" onClick={() => { setSelectedFlight(flight); setIsModalOpen(true); }}>
                                         Email Details
