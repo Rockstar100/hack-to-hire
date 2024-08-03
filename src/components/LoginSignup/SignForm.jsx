@@ -23,7 +23,7 @@ const SignForm = () => {
         setEmail('');
         setPassword('');
         setConfirmPassword('');
-        window.location.href = '/login';
+        window.location.href = '/';
       })
       .catch(error => {
         console.error('Error signing up:', error);

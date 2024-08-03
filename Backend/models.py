@@ -3,7 +3,7 @@ from utils import get_mock_flights
 from flask import Flask
 
 app = Flask(__name__)
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/flight_notifications'
+app.config['MONGO_URI'] = 'mongodb+srv://parveenjaiswal100:root123@clickmaster.oveswat.mongodb.net/flight_notifications'
 mongo = PyMongo(app)
 flights_collection = mongo.db.flights
 

@@ -53,7 +53,10 @@ const FlightStatusDashboard = () => {
     return (
         <>
             <div className="dashboard">
-                <h1>Flight Status Dashboard</h1>
+                <h1
+                className=''
+                >
+                    Flight Status</h1>
                 <table className="flights-table">
                     <thead>
                         <tr>

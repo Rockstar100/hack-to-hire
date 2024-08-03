@@ -9,7 +9,7 @@ import smtplib
 from email.mime.text import MIMEText
 
 app = Flask(__name__)
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/flight_notifications'
+app.config['MONGO_URI'] = 'mongodb+srv://parveenjaiswal100:root123@clickmaster.oveswat.mongodb.net/flight_notifications'
 
 
 CORS(app, resources={
@@ -67,71 +67,7 @@ def login():
 
     return jsonify({'message': 'Invalid credentials'}), 401
 
-@app.route('/api/preferences/<user_id>', methods=['GET'])
-def user_preferences(user_id):
-    user_id = ObjectId(user_id)
-    user = users_collection.find_one({'_id': user_id})
 
-    if user:
-        return jsonify({'preferences': user.get('notificationPreferences', [])})
-
-    return jsonify({'message': 'User not found'}), 404
-
-@app.route('/api/preferences/<user_id>', methods=['POST'])
-def update_preferences(user_id):
-    preferences = request.get_json()
-    user_id = ObjectId(user_id)
-    users_collection.update_one({'_id': user_id}, {'$set': {'notificationPreferences': preferences}})
-
-    return jsonify({'message': 'Preferences updated successfully'})
-
-@app.route('/api/subscribe', methods=['POST'])
-def subscribe():
-    data = request.get_json()
-    user_id = ObjectId(data['userId'])
-    flight_id = ObjectId(data['flightId'])
-
-    existing_subscription = notifications_collection.find_one({
-        'userId': user_id,
-        'flightId': flight_id
-    })
-
-    if existing_subscription:
-        return jsonify({'message': 'Already subscribed to this flight'}), 409
-
-    new_notification = {
-        'userId': user_id,
-        'flightId': flight_id,
-        'type': data['type']
-    }
-    notifications_collection.insert_one(new_notification)
-
-    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-    channel = connection.channel()
-    channel.queue_declare(queue='notifications')
-
-    notification_message = json.dumps({
-        'user_id': str(user_id),
-        'flight_id': str(flight_id),
-        'type': data['type']
-    })
-    channel.basic_publish(exchange='', routing_key='notifications', body=notification_message)
-    connection.close()
-
-    return jsonify({'message': 'Subscribed successfully'})
-
-@app.route('/api/unsubscribe', methods=['POST'])
-def unsubscribe():
-    data = request.get_json()
-    user_id = ObjectId(data['userId'])
-    flight_id = ObjectId(data['flightId'])
-
-    notifications_collection.delete_one({
-        'userId': user_id,
-        'flightId': flight_id
-    })
-
-    return jsonify({'message': 'Unsubscribed successfully'})
 
 @app.route('/api/subscriptions/<user_id>', methods=['GET'])
 def get_subscriptions(user_id):
